@@ -1,18 +1,29 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f7fb">
-  <title>Прохождение теста — TEST BASE</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f7fb">
+  <title>Прохождение теста — TEST BASE</title><link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">TB</span><span>TEST BASE</span></a><span class="topbar-note">Режим тестирования</span></header>
-  <main class="container test-container">
-    <div class="test-topline"><a class="back-link" href="index.html">← К каталогу</a><span id="testCategory" class="category-pill">ТЕСТ</span></div>
+
+  <main id="startGate" class="container test-container start-container">
+    <section class="start-card">
+      <div class="start-shield">TB</div><div class="eyebrow">ПОДГОТОВКА К ЭКЗАМЕНУ</div>
+      <h1 id="startTestTitle">Загружаем тест...</h1>
+      <p id="startTestDescription" class="muted">Подготавливаем параметры тестирования.</p>
+      <div id="startDetails" class="start-details"></div>
+      <div id="startFullscreenNote" class="fullscreen-note"><strong>Полноэкранный режим обязателен.</strong><br>После начала нельзя выходить из него. Нажатие Escape или выход из полноэкранного режима автоматически завершит тест.</div>
+      <button id="startExamBtn" class="button button-primary start-button" type="button" disabled>Подготовка...</button>
+      <p id="startStatus" class="editor-status" role="status">Загрузка параметров...</p>
+      <a class="back-link start-back" href="index.html">← Вернуться в каталог</a>
+    </section>
+  </main>
+
+  <main id="examApp" class="container test-container" hidden>
+    <div class="test-topline"><span class="back-link">Экзамен идёт</span><span id="testCategory" class="category-pill">ТЕСТ</span></div>
     <section class="test-heading"><div><h1 id="testTitle">Загрузка теста...</h1><p class="muted" id="testDescription"></p></div><div class="timer-box"><span class="timer-label">ОСТАЛОСЬ ВРЕМЕНИ</span><strong id="timer">--:--</strong></div></section>
-    <section id="integrityBanner" class="integrity-banner" role="status"><span class="integrity-icon">!</span><span><strong>Экзаменационный режим включён.</strong> Не покидайте вкладку с тестом. Переключения фиксируются.</span><b id="warningCounter">Нарушения: 0/3</b></section>
+    <section id="integrityBanner" class="integrity-banner" role="status"><span class="integrity-icon">!</span><span><strong>Экзаменационный режим включён.</strong> Не покидайте вкладку с тестом. Переключения фиксируются.</span><b id="warningCounter">Нарушения: 0/2</b></section>
     <section class="progress-wrap"><div class="progress-meta"><span id="progressText">Вопрос 1 из 1</span><span id="answeredText">Отвечено: 0</span></div><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div></section>
     <section class="question-layout">
       <aside class="question-sidebar"><h3>Навигация</h3><div id="questionNav" class="question-nav"></div><p class="sidebar-hint">Можно возвращаться к любому вопросу и менять ответ до завершения теста.</p></aside>
@@ -21,5 +32,4 @@
     <div class="finish-row"><span class="muted small">Ответы сохраняются в текущей вкладке автоматически.</span><button id="finishBtn" class="button button-danger">Завершить тест</button></div>
   </main>
   <script src="js/test.js"></script>
-</body>
-</html>
+</body></html>
