@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "id": "informatics-basics",
+      "code": "TEST-001",
+      "title": "Основы информатики",
+      "category": "Информатика",
+      "description": "Демонстрационный тест по базовым понятиям информатики и вычислительной техники.",
+      "timeMinutes": 10,
+      "questionCount": 5
+    },
+    {
+      "id": "operating-systems",
+      "code": "TEST-002",
+      "title": "Операционные системы",
+      "category": "Информационные технологии",
+      "description": "Проверка знаний об архитектуре, назначении и функциях операционных систем.",
+      "timeMinutes": 12,
+      "questionCount": 5
+    }
+  ]
+}
