@@ -7,3 +7,8 @@
 .integrity-banner[hidden]{display:none}.integrity-icon{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#dbe8ff;color:#285fc4;font-weight:800;flex:none}
 .integrity-banner b{margin-left:auto;white-space:nowrap;font-size:10px}.integrity-banner.integrity-warning{background:#fff5e8;border-color:#f2d7a8;color:#8a5c16}.integrity-warning .integrity-icon{background:#ffe8c2;color:#a56609}
 @media(max-width:600px){.integrity-banner{align-items:flex-start;flex-wrap:wrap}.integrity-banner b{margin-left:33px}}
+
+.integrity-banner{display:flex;align-items:center;gap:11px;background:#edf4ff;border:1px solid #d6e4ff;color:#35527f;border-radius:8px;padding:11px 14px;margin:-7px 0 20px;font-size:11px}
+.integrity-banner[hidden]{display:none}.integrity-icon{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#dbe8ff;color:#285fc4;font-weight:800;flex:none}
+.integrity-banner b{margin-left:auto;white-space:nowrap;font-size:10px}.integrity-banner.integrity-warning{background:#fff5e8;border-color:#f2d7a8;color:#8a5c16}.integrity-warning .integrity-icon{background:#ffe8c2;color:#a56609}
+@media(max-width:600px){.integrity-banner{align-items:flex-start;flex-wrap:wrap}.integrity-banner b{margin-left:33px}}
