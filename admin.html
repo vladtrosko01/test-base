@@ -3,16 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Управление тестами — TEST BASE</title>
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Управление банком вопросов — TEST BASE</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">TB</span><span>TEST BASE</span></a><nav><a class="nav-link" href="index.html">Каталог</a><a class="nav-link active" href="admin.html">Управление</a></nav><span class="topbar-note">Локальный инструмент</span></header>
-  <main class="container">
-    <section class="page-heading"><div><div class="eyebrow">КОНФИГУРАЦИЯ</div><h1>Управление тестами</h1><p class="muted">Просмотр структуры JSON и инструкция по добавлению материалов.</p></div></section>
-    <div class="notice"><strong>Важно:</strong> GitHub Pages — статический хостинг. Эта страница не может безопасно записывать изменения в репозиторий. Для изменения тестов отредактируйте JSON-файлы в GitHub.</div>
-    <section class="admin-panel"><h2>Файлы базы данных</h2><a class="file-row" href="data/tests.json"><span><b>data/tests.json</b><small>Каталог, параметры и описания тестов</small></span><span>Открыть ↗</span></a><a class="file-row" href="data/questions.json"><span><b>data/questions.json</b><small>Банк вопросов и варианты ответов</small></span><span>Открыть ↗</span></a></section>
-    <section class="admin-panel"><h2>Как добавить тест</h2><ol class="instructions"><li>Добавьте объект теста в <code>data/tests.json</code>.</li><li>Укажите уникальный <code>id</code>, название, категорию и настройки.</li><li>Добавьте вопросы с таким же <code>testId</code> в <code>data/questions.json</code>.</li><li>Для каждого вопроса укажите четыре ответа и индекс правильного ответа от 0 до 3.</li><li>Сохраните изменения в ветку <code>main</code>. GitHub Pages обновит сайт автоматически после публикации.</li></ol></section>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">TB</span><span>TEST BASE</span></a>
+    <nav><a class="nav-link" href="index.html">Каталог</a><a class="nav-link active" href="admin.html">Управление</a></nav>
+    <span class="topbar-note">Редактор банка вопросов</span>
+  </header>
+  <main class="container admin-container">
+    <section class="page-heading">
+      <div><div class="eyebrow">КОНФИГУРАЦИЯ</div><h1>Банк вопросов</h1><p class="muted">Добавляйте и удаляйте вопросы, затем скачивайте обновлённую JSON-базу.</p></div>
+    </section>
+    <div class="notice"><strong>Как сохраняются изменения:</strong> редактор работает в браузере и не имеет права записывать файлы в GitHub. После изменений нажмите «Скачать questions.json», затем загрузите скачанный файл в репозиторий вместо <code>data/questions.json</code>. Страница управления публичная — не используйте её для секретных материалов.</div>
+    <section class="admin-stats">
+      <div class="admin-stat"><span>ТЕСТОВ</span><strong id="adminTestCount">—</strong></div>
+      <div class="admin-stat"><span>ВОПРОСОВ В БАЗЕ</span><strong id="adminQuestionCount">—</strong></div>
+      <div class="admin-stat"><span>ИЗМЕНЕНИЙ В ЭТОЙ СЕССИИ</span><strong id="adminChangesCount">0</strong></div>
+    </section>
+    <div class="admin-editor-grid">
+      <section class="admin-panel">
+        <div class="panel-heading"><div><div class="eyebrow">НОВАЯ ЗАПИСЬ</div><h2>Добавить вопрос</h2></div><span class="category-pill">4 варианта</span></div>
+        <form id="questionForm" class="question-form">
+          <label class="field-label" for="testSelect">Тест</label>
+          <select id="testSelect" required class="field-control"><option value="">Загружаем тесты...</option></select>
+          <label class="field-label" for="questionInput">Текст вопроса</label>
+          <textarea id="questionInput" class="field-control field-textarea" rows="3" placeholder="Введите формулировку вопроса..." required></textarea>
+          <div class="field-label">Варианты ответов</div>
+          <div class="answer-editor"><label class="answer-editor-row"><span>A</span><input id="answer0" class="field-control" placeholder="Вариант ответа A" required></label>
+          <label class="answer-editor-row"><span>B</span><input id="answer1" class="field-control" placeholder="Вариант ответа B" required></label>
+          <label class="answer-editor-row"><span>C</span><input id="answer2" class="field-control" placeholder="Вариант ответа C" required></label>
+          <label class="answer-editor-row"><span>D</span><input id="answer3" class="field-control" placeholder="Вариант ответа D" required></label></div>
+          <label class="field-label" for="correctSelect">Правильный ответ</label>
+          <select id="correctSelect" class="field-control" required><option value="0">A — вариант A</option><option value="1">B — вариант B</option><option value="2">C — вариант C</option><option value="3">D — вариант D</option></select>
+          <button class="button button-primary editor-submit" type="submit">＋ Добавить в банк</button>
+          <p id="editorStatus" class="editor-status" role="status">Подключаем JSON-базу...</p>
+        </form>
+      </section>
+      <section class="admin-panel bank-panel">
+        <div class="panel-heading"><div><div class="eyebrow">ТЕКУЩАЯ БАЗА</div><h2>Вопросы</h2></div><button id="downloadQuestions" class="button button-primary" type="button" disabled>↓ Скачать JSON</button></div>
+        <label class="searchbox bank-search"><span>⌕</span><input id="questionSearch" type="search" placeholder="Поиск по вопросам..." aria-label="Поиск по вопросам"></label>
+        <div id="questionList" class="question-list"><div class="loading">Загружаем вопросы...</div></div>
+      </section>
+    </div>
+    <section class="admin-panel admin-help">
+      <h2>Как опубликовать обновлённую базу</h2>
+      <ol class="instructions">
+        <li>Добавьте или удалите вопросы в редакторе.</li>
+        <li>Нажмите <strong>«Скачать JSON»</strong>. Файл сохранится на компьютер.</li>
+        <li>Откройте <a href="https://github.com/vladtrosko01/test-base/tree/main/data" target="_blank" rel="noopener">папку data в GitHub</a>.</li>
+        <li>Откройте <code>questions.json</code>, нажмите карандаш или используйте Add file → Upload files, чтобы заменить его скачанным файлом.</li>
+        <li>Сохраните изменения в ветку <code>main</code>. После обновления GitHub Pages сайт загрузит новую базу.</li>
+      </ol>
+    </section>
   </main>
+  <script src="js/admin.js"></script>
 </body>
 </html>
