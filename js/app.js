@@ -23,7 +23,7 @@ function renderCatalog(tests){
  grid.innerHTML=tests.map(test=>{
   const mode=test.questionCountMode||'fixed';
   const countLabel=mode==='all'?'Все вопросы':mode==='random'?'Случайно '+(test.questionCountMin||3)+'–'+(test.questionCountMax||test.questionCount||5):'Вопросов '+(test.questionCount||5);
-  return '<article class="test-card"><div class="card-top"><span class="category-pill">'+escapeHTML(test.category||'ОБЩЕЕ')+'</span><span class="card-code">'+escapeHTML(test.code||test.id)+'</span></div><h3>'+escapeHTML(test.title)+'</h3><p>'+escapeHTML(test.description||'Проверка знаний по выбранной теме.')+'</p><div class="card-meta"><span>◷ '+(Number(test.timeMinutes)||15)+' мин.</span><span>▤ '+escapeHTML(countLabel)+'</span></div><a class="button button-primary card-button" href="test.html?id='+encodeURIComponent(test.id)+'">Начать тест</a></article>';
+  return '<article class="test-card"><div class="card-top"><span class="category-pill">'+escapeHTML(test.category||'ОБЩЕЕ')+'</span><span class="card-code">'+escapeHTML(test.code||test.id)+'</span></div><h3>'+escapeHTML(test.title)+'</h3><p>'+escapeHTML(test.description||'Проверка знаний по выбранной теме.')+'</p><div class="card-meta"><span>◷ '+(Number(test.timeMinutes)||15)+' мин.</span><span>▤ '+escapeHTML(countLabel)+'</span></div><a class="button button-primary card-button" href="test.html?v=20261118-2015&id='+encodeURIComponent(test.id)+'">Начать тест</a></article>';
  }).join('');
 }
 function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));}
