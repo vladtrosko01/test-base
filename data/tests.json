@@ -43,6 +43,28 @@
       "shuffleQuestions": true,
       "shuffleAnswers": true,
       "examMode": true
+    },
+    {
+      "id": "question-types-demo",
+      "code": "TEST-003",
+      "title": "Форматы вопросов",
+      "category": "Демонстрация",
+      "description": "Демонстрация разных форматов: несколько правильных вариантов, свободный текстовый ответ и вопрос с изображением.",
+      "timeMinutes": 5,
+      "questionCount": 3,
+      "questionCountMode": "all",
+      "questionCountMin": 3,
+      "questionCountMax": 3,
+      "passPercent": 60,
+      "shuffleQuestions": false,
+      "shuffleAnswers": true,
+      "examMode": false,
+      "security": {
+        "enabled": false,
+        "maxWarnings": 2,
+        "finishOnLimit": true,
+        "fullscreenRequired": false
+      }
     }
   ]
 }
