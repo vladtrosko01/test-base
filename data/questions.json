@@ -122,7 +122,7 @@
     },
     {
       "id": "i6",
-      "testId": "informatics-basics",
+      "testId": "question-types-demo",
       "type": "multiple",
       "question": "Какие из перечисленных устройств относятся к устройствам ввода? Выберите все подходящие варианты.",
       "answers": [
@@ -139,7 +139,7 @@
     },
     {
       "id": "i7",
-      "testId": "informatics-basics",
+      "testId": "question-types-demo",
       "type": "text",
       "question": "Как называется минимальная адресуемая единица памяти, обычно состоящая из восьми бит?",
       "acceptedAnswers": [
@@ -151,7 +151,7 @@
     },
     {
       "id": "i8",
-      "testId": "informatics-basics",
+      "testId": "question-types-demo",
       "type": "single",
       "question": "Согласно схеме, сколько бит содержится в одном байте?",
       "image": "images/byte-layout.svg",
