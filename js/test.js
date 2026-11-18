@@ -1,6 +1,6 @@
 const params=new URLSearchParams(location.search);
 const testId=params.get('id');
-let testConfig=null,questions=[],answers={},currentIndex=0,timerId=null,remainingSeconds=0,submitting=false,warningCount=0,attemptKey='',deadline=0,violationLog=[];
+let testConfig=null,questions=[],answers={},currentIndex=0,timerId=null,remainingSeconds=0,submitting=false,warningCount=0,attemptKey='',deadline=0,violationLog=[],pendingAutoFinish=false;
 const $=id=>document.getElementById(id);
 async function init(){
   try{
@@ -35,7 +35,7 @@ async function init(){
     if(security.enabled===false){$('integrityBanner').hidden=true;}
     render();startTimer();
     $('prevBtn').addEventListener('click',()=>goTo(currentIndex-1));
-    $('nextBtn').addEventListener('click',()=>goTo(currentIndex+1));
+    $('nextBtn').addEventListener('click',()=>{if(currentIndex===questions.length-1){finish(false);}else{goTo(currentIndex+1);}});
     $('finishBtn').addEventListener('click',()=>finish(false));
     document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goTo(currentIndex+1);if(e.key==='ArrowLeft')goTo(currentIndex-1);});
     document.addEventListener('visibilitychange',handleVisibilityChange);
@@ -48,13 +48,18 @@ function saveAttempt(){
   sessionStorage.setItem(attemptKey,JSON.stringify({questions,answers,currentIndex,warningCount,violationLog,deadline}));
 }
 function handleVisibilityChange(){
-  if(document.visibilityState!=='hidden'||submitting||testConfig?.security?.enabled===false)return;
-  warningCount++;
-  const entry={type:'tab-hidden',at:new Date().toISOString(),count:warningCount};
-  violationLog.push(entry);saveAttempt();updateWarningDisplay();
-  const limit=Math.max(1,Number(testConfig?.security?.maxWarnings)||3);
-  if(warningCount>=limit&&testConfig?.security?.finishOnLimit!==false){
-    alert('Лимит нарушений исчерпан. Тест будет завершён автоматически.');
+  if(submitting||testConfig?.security?.enabled===false)return;
+  if(document.visibilityState==='hidden'){
+    warningCount++;
+    violationLog.push({type:'tab-hidden',at:new Date().toISOString(),count:warningCount});
+    const limit=Math.max(1,Number(testConfig?.security?.maxWarnings)||3);
+    if(warningCount>=limit&&testConfig?.security?.finishOnLimit!==false)pendingAutoFinish=true;
+    saveAttempt();
+    return;
+  }
+  updateWarningDisplay();
+  if(pendingAutoFinish&&!submitting){
+    pendingAutoFinish=false;
     finish(true,'Превышен лимит переключений вкладки');
   }
 }
