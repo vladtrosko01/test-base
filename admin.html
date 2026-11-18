@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Управление тестами — TEST BASE</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">TB</span><span>TEST BASE</span></a><nav><a class="nav-link" href="index.html">Каталог</a><a class="nav-link active" href="admin.html">Управление</a></nav><span class="topbar-note">Локальный инструмент</span></header>
+  <main class="container">
+    <section class="page-heading"><div><div class="eyebrow">КОНФИГУРАЦИЯ</div><h1>Управление тестами</h1><p class="muted">Просмотр структуры JSON и инструкция по добавлению материалов.</p></div></section>
+    <div class="notice"><strong>Важно:</strong> GitHub Pages — статический хостинг. Эта страница не может безопасно записывать изменения в репозиторий. Для изменения тестов отредактируйте JSON-файлы в GitHub.</div>
+    <section class="admin-panel"><h2>Файлы базы данных</h2><a class="file-row" href="data/tests.json"><span><b>data/tests.json</b><small>Каталог, параметры и описания тестов</small></span><span>Открыть ↗</span></a><a class="file-row" href="data/questions.json"><span><b>data/questions.json</b><small>Банк вопросов и варианты ответов</small></span><span>Открыть ↗</span></a></section>
+    <section class="admin-panel"><h2>Как добавить тест</h2><ol class="instructions"><li>Добавьте объект теста в <code>data/tests.json</code>.</li><li>Укажите уникальный <code>id</code>, название, категорию и настройки.</li><li>Добавьте вопросы с таким же <code>testId</code> в <code>data/questions.json</code>.</li><li>Для каждого вопроса укажите четыре ответа и индекс правильного ответа от 0 до 3.</li><li>Сохраните изменения в ветку <code>main</code>. GitHub Pages обновит сайт автоматически после публикации.</li></ol></section>
+  </main>
+</body>
+</html>
