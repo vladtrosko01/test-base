@@ -7,7 +7,12 @@
       "category": "Информатика",
       "description": "Демонстрационный тест по базовым понятиям информатики и вычислительной техники.",
       "timeMinutes": 10,
-      "questionCount": 5
+      "questionCount": 5,
+      "security": {
+        "enabled": true,
+        "maxWarnings": 3,
+        "finishOnLimit": true
+      }
     },
     {
       "id": "operating-systems",
@@ -16,7 +21,12 @@
       "category": "Информационные технологии",
       "description": "Проверка знаний об архитектуре, назначении и функциях операционных систем.",
       "timeMinutes": 12,
-      "questionCount": 5
+      "questionCount": 5,
+      "security": {
+        "enabled": true,
+        "maxWarnings": 3,
+        "finishOnLimit": true
+      }
     }
   ]
 }
