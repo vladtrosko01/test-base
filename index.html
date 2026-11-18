@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>TEST BASE — каталог тестов</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">TB</span><span>TEST BASE</span></a>
+    <nav><a class="nav-link active" href="index.html">Каталог</a><a class="nav-link" href="admin.html">Управление</a></nav>
+    <span class="topbar-note">Система тестирования</span>
+  </header>
+  <main class="container">
+    <section class="page-heading">
+      <div><div class="eyebrow">ОБРАЗОВАТЕЛЬНАЯ ПЛАТФОРМА</div><h1>Каталог тестов</h1><p class="muted">Выберите тест, чтобы начать проверку знаний.</p></div>
+      <div class="heading-badge"><span class="status-dot"></span> Система доступна</div>
+    </section>
+    <section class="toolbar">
+      <label class="searchbox"><span>⌕</span><input id="searchInput" type="search" placeholder="Поиск по названию теста..." aria-label="Поиск тестов"></label>
+      <select id="categoryFilter" aria-label="Фильтр по категории"><option value="">Все категории</option></select>
+    </section>
+    <div class="section-line"><h2>Доступные тесты</h2><span id="testCount" class="muted small"></span></div>
+    <section id="testGrid" class="test-grid" aria-live="polite"><div class="loading">Загружаем каталог...</div></section>
+    <footer class="footer">TEST BASE <span>Учебная система · GitHub Pages</span></footer>
+  </main>
+  <script src="js/app.js"></script>
+</body>
+</html>
