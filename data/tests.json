@@ -11,8 +11,16 @@
       "security": {
         "enabled": true,
         "maxWarnings": 2,
-        "finishOnLimit": true
-      }
+        "finishOnLimit": true,
+        "fullscreenRequired": true
+      },
+      "questionCountMode": "random",
+      "questionCountMin": 3,
+      "questionCountMax": 5,
+      "passPercent": 60,
+      "shuffleQuestions": true,
+      "shuffleAnswers": true,
+      "examMode": true
     },
     {
       "id": "operating-systems",
@@ -25,8 +33,16 @@
       "security": {
         "enabled": true,
         "maxWarnings": 2,
-        "finishOnLimit": true
-      }
+        "finishOnLimit": true,
+        "fullscreenRequired": true
+      },
+      "questionCountMode": "random",
+      "questionCountMin": 3,
+      "questionCountMax": 5,
+      "passPercent": 60,
+      "shuffleQuestions": true,
+      "shuffleAnswers": true,
+      "examMode": true
     }
   ]
 }
