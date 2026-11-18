@@ -10,7 +10,7 @@
       "questionCount": 5,
       "security": {
         "enabled": true,
-        "maxWarnings": 3,
+        "maxWarnings": 2,
         "finishOnLimit": true
       }
     },
@@ -24,7 +24,7 @@
       "questionCount": 5,
       "security": {
         "enabled": true,
-        "maxWarnings": 3,
+        "maxWarnings": 2,
         "finishOnLimit": true
       }
     }
