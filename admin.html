@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f7fb"><title>Управление — TEST BASE</title>
-  <link rel="stylesheet" href="css/style.css?v=20261118-2015">
+  <link rel="stylesheet" href="css/style.css?v=20261118-2225">
 </head>
 <body>
   <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">TB</span><span>TEST BASE</span></a><nav><a class="nav-link" href="index.html">Каталог</a><a class="nav-link active" href="admin.html">Управление</a></nav><span class="topbar-note">Панель управления</span></header>
   <main class="container admin-container">
-    <section class="page-heading"><div><div class="eyebrow">КОНФИГУРАЦИЯ</div><h1>Управление тестами</h1><p class="muted">Настройки экзамена, параметры выборки и банк вопросов.</p></div></section>
-    <div class="notice"><strong>Важно:</strong> GitHub Pages не может безопасно записывать изменения обратно в репозиторий. После настройки нажмите «Скачать tests.json» и замените <code>data/tests.json</code> в GitHub. Для банка вопросов используется отдельная выгрузка <code>questions.json</code>. Не размещайте здесь секретные ответы: JSON доступен посетителям.</div>
+    <section class="page-heading"><div><div class="eyebrow">КОНФИГУРАЦИЯ</div><h1>Управление тестами</h1><p class="muted">Создание тестов, редактор вопросов, медиа и аналитика прохождений.</p></div></section>
+    <div class="notice"><strong>Важно о GitHub Pages:</strong> редактор работает в браузере и не может сам записать файлы в репозиторий. После изменений скачайте JSON и замените соответствующий файл в папке <code>data</code>. История результатов хранится только в этом браузере. JSON-банк публичен, поэтому это учебная, а не защищённая от извлечения ответов система.</div>
     <section class="admin-stats">
       <div class="admin-stat"><span>ТЕСТОВ</span><strong id="adminTestCount">—</strong></div>
       <div class="admin-stat"><span>ВОПРОСОВ В БАЗЕ</span><strong id="adminQuestionCount">—</strong></div>
@@ -17,10 +17,23 @@
     </section>
 
     <section class="admin-panel">
-      <div class="panel-heading"><div><div class="eyebrow">ПАРАМЕТРЫ ЭКЗАМЕНА</div><h2>Настройки выбранного теста</h2></div><button id="downloadTests" class="button button-primary" type="button" disabled>↓ Скачать tests.json</button></div>
+      <div class="panel-heading"><div><div class="eyebrow">УПРАВЛЕНИЕ КАТАЛОГОМ</div><h2>Создать новый тест</h2></div></div>
+      <form id="newTestForm" class="settings-form">
+        <div class="settings-grid">
+          <div class="settings-field"><label class="field-label" for="newTestTitle">Название теста</label><input id="newTestTitle" class="field-control" required maxlength="100" placeholder="Например, Базы данных"></div>
+          <div class="settings-field"><label class="field-label" for="newTestCategory">Категория</label><input id="newTestCategory" class="field-control" maxlength="60" placeholder="Информатика"></div>
+          <div class="settings-field"><label class="field-label" for="newTestTime">Время, минут</label><input id="newTestTime" class="field-control" type="number" min="1" max="600" value="15" required></div>
+          <div class="settings-field settings-wide"><label class="field-label" for="newTestDescription">Описание</label><textarea id="newTestDescription" class="field-control field-textarea" rows="2" placeholder="Краткое описание теста"></textarea></div>
+        </div>
+        <div class="settings-actions"><button class="button button-primary" type="submit">＋ Создать тест</button><p id="testCreateStatus" class="editor-status" role="status"></p></div>
+      </form>
+      <div class="test-management-row"><label class="field-label" for="settingsTestSelect">Выбрать тест для настройки или удаления</label><div class="test-management-controls"><select id="settingsTestSelect" class="field-control" required></select><button id="deleteTest" class="button button-danger" type="button">Удалить выбранный тест</button><button id="downloadTests" class="button button-primary" type="button" disabled>↓ Скачать tests.json</button></div></div>
+    </section>
+
+    <section class="admin-panel">
+      <div class="panel-heading"><div><div class="eyebrow">ПАРАМЕТРЫ ЭКЗАМЕНА</div><h2>Настройки выбранного теста</h2></div></div>
       <form id="settingsForm" class="settings-form">
         <div class="settings-grid">
-          <div class="settings-field settings-wide"><label class="field-label" for="settingsTestSelect">Тест для настройки</label><select id="settingsTestSelect" class="field-control" required></select></div>
           <div class="settings-field"><label class="field-label" for="questionCountMode">Количество вопросов</label><select id="questionCountMode" class="field-control"><option value="random">Случайное количество в диапазоне</option><option value="fixed">Фиксированное количество</option><option value="all">Все вопросы банка</option></select></div>
           <div class="settings-field" id="fixedCountGroup"><label class="field-label" for="questionCount">Количество вопросов</label><input id="questionCount" class="field-control" type="number" min="1" max="1000" value="5"></div>
           <div class="settings-field" id="randomMinGroup"><label class="field-label" for="questionCountMin">Минимум вопросов</label><input id="questionCountMin" class="field-control" type="number" min="1" max="1000" value="3"></div>
@@ -32,8 +45,8 @@
         <div class="settings-toggles">
           <label class="toggle-row"><input id="shuffleQuestions" type="checkbox" checked><span><b>Перемешивать вопросы</b><small>Каждому прохождению формируется свой порядок</small></span></label>
           <label class="toggle-row"><input id="shuffleAnswers" type="checkbox" checked><span><b>Перемешивать варианты ответов</b><small>Положение ответов меняется случайным образом</small></span></label>
-          <label class="toggle-row"><input id="examMode" type="checkbox" checked><span><b>Экзаменационный режим</b><small>Включает контроль вкладки и подсчёт нарушений</small></span></label>
-          <label class="toggle-row"><input id="fullscreenRequired" type="checkbox" checked><span><b>Обязательный полноэкранный режим</b><small>Выход из полноэкранного режима автоматически завершает экзамен</small></span></label>
+          <label class="toggle-row"><input id="examMode" type="checkbox" checked><span><b>Экзаменационный режим</b><small>Контроль переключения вкладки и нарушений</small></span></label>
+          <label class="toggle-row"><input id="fullscreenRequired" type="checkbox" checked><span><b>Обязательный полноэкранный режим</b><small>Выход автоматически завершает экзамен</small></span></label>
         </div>
         <div class="settings-actions"><button class="button button-primary" type="submit">Сохранить настройки в редакторе</button><p id="settingsStatus" class="editor-status" role="status">Загрузка настроек...</p></div>
       </form>
@@ -41,33 +54,45 @@
 
     <div class="admin-editor-grid">
       <section class="admin-panel">
-        <div class="panel-heading"><div><div class="eyebrow">НОВАЯ ЗАПИСЬ</div><h2>Добавить вопрос</h2></div><span class="category-pill">4 варианта</span></div>
+        <div class="panel-heading"><div><div class="eyebrow">КОНСТРУКТОР</div><h2 id="questionFormTitle">Добавить вопрос</h2></div><span class="category-pill">4 формата</span></div>
         <form id="questionForm" class="question-form">
-          <label class="field-label" for="testSelect">Тест</label><select id="testSelect" required class="field-control"><option value="">Загружаем тесты...</option></select>
-          <label class="field-label" for="questionInput">Текст вопроса</label><textarea id="questionInput" class="field-control field-textarea" rows="3" placeholder="Введите формулировку вопроса..." required></textarea>
-          <div class="field-label">Варианты ответов</div>
-          <div class="answer-editor">
-            <label class="answer-editor-row"><span>A</span><input id="answer0" class="field-control" placeholder="Вариант ответа A" required></label>
-            <label class="answer-editor-row"><span>B</span><input id="answer1" class="field-control" placeholder="Вариант ответа B" required></label>
-            <label class="answer-editor-row"><span>C</span><input id="answer2" class="field-control" placeholder="Вариант ответа C" required></label>
-            <label class="answer-editor-row"><span>D</span><input id="answer3" class="field-control" placeholder="Вариант ответа D" required></label>
+          <label class="field-label" for="testSelect">Добавить в тест</label><select id="testSelect" required class="field-control"></select>
+          <label class="field-label" for="questionType">Тип вопроса</label>
+          <select id="questionType" class="field-control"><option value="single">Один правильный вариант</option><option value="multiple">Несколько правильных вариантов</option><option value="text">Свободный текстовый ответ</option></select>
+          <label class="field-label" for="questionInput">Формулировка вопроса</label><textarea id="questionInput" class="field-control field-textarea" rows="3" placeholder="Введите вопрос..." required></textarea>
+          <div class="media-input-block"><label class="field-label" for="questionImageUrl">Изображение к вопросу (необязательно)</label><input id="questionImageUrl" class="field-control" type="text" placeholder="https://... или images/diagram.png"><label class="field-label" for="questionImageFile">Или выбрать файл с компьютера</label><input id="questionImageFile" class="field-control file-control" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><div id="imagePreview" class="image-preview" hidden></div><p class="field-hint">Файл будет встроен в JSON. Лучше использовать изображения до 500 КБ. Также можно указать ссылку или путь к файлу в репозитории.</p></div>
+          <div id="choiceFields">
+            <div class="field-label">Варианты ответов</div>
+            <div id="choiceEditor" class="answer-editor"></div>
+            <div id="singleCorrectGroup"><label class="field-label" for="correctSingle">Правильный ответ</label><select id="correctSingle" class="field-control"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+            <div id="multipleCorrectGroup" hidden><div class="field-label">Отметьте все правильные варианты</div><div id="multipleCorrect" class="correct-checkbox-grid"></div></div>
           </div>
-          <label class="field-label" for="correctSelect">Правильный ответ</label><select id="correctSelect" class="field-control" required><option value="0">A — вариант A</option><option value="1">B — вариант B</option><option value="2">C — вариант C</option><option value="3">D — вариант D</option></select>
-          <button class="button button-primary editor-submit" type="submit">＋ Добавить в банк</button><p id="editorStatus" class="editor-status" role="status">Подключаем JSON-базу...</p>
+          <div id="textAnswerGroup" hidden><label class="field-label" for="acceptedAnswers">Допустимые правильные ответы</label><textarea id="acceptedAnswers" class="field-control field-textarea" rows="3" placeholder="Каждый допустимый ответ — с новой строки"></textarea><p class="field-hint">Сравнение без учёта регистра и лишних пробелов. Можно указать несколько формулировок.</p></div>
+          <label class="field-label" for="questionExplanation">Пояснение к ответу (необязательно)</label><textarea id="questionExplanation" class="field-control field-textarea" rows="2" placeholder="Пояснение, которое можно использовать в разборе"></textarea>
+          <div class="settings-actions question-editor-actions"><button id="saveQuestion" class="button button-primary editor-submit" type="submit">＋ Добавить вопрос</button><button id="cancelEdit" class="button button-light" type="button" hidden>Отменить редактирование</button></div>
+          <p id="editorStatus" class="editor-status" role="status">Загружаем JSON-базу...</p>
         </form>
       </section>
       <section class="admin-panel bank-panel">
-        <div class="panel-heading"><div><div class="eyebrow">ТЕКУЩАЯ БАЗА</div><h2>Вопросы</h2></div><button id="downloadQuestions" class="button button-primary" type="button" disabled>↓ Скачать questions.json</button></div>
+        <div class="panel-heading"><div><div class="eyebrow">БАНК ВОПРОСОВ</div><h2>Вопросы</h2></div><button id="downloadQuestions" class="button button-primary" type="button" disabled>↓ Скачать questions.json</button></div>
         <label class="searchbox bank-search"><span>⌕</span><input id="questionSearch" type="search" placeholder="Поиск по вопросам..." aria-label="Поиск по вопросам"></label>
         <div id="questionList" class="question-list"><div class="loading">Загружаем вопросы...</div></div>
       </section>
     </div>
+
+    <section class="admin-panel analytics-panel">
+      <div class="panel-heading"><div><div class="eyebrow">ЛОКАЛЬНАЯ АНАЛИТИКА</div><h2>История прохождений</h2><p class="field-hint">Показываются попытки, сохранённые в этом браузере на этом устройстве.</p></div><div class="analytics-actions"><button id="exportHistory" class="button button-primary" type="button">↓ Экспорт CSV</button><button id="clearHistory" class="button button-light" type="button">Очистить историю</button></div></div>
+      <div class="analytics-stats"><div class="admin-stat"><span>ПОПЫТОК</span><strong id="historyCount">0</strong></div><div class="admin-stat"><span>СРЕДНИЙ РЕЗУЛЬТАТ</span><strong id="historyAverage">—</strong></div><div class="admin-stat"><span>ДОЛЯ ЗАЧЁТОВ</span><strong id="historyPassRate">—</strong></div></div>
+      <div id="historyTable" class="history-table"><div class="empty-state">Пока нет сохранённых результатов.</div></div>
+    </section>
+
     <section class="admin-panel admin-help"><h2>Как опубликовать изменения</h2><ol class="instructions">
-      <li>Настройте тест и нажмите «Сохранить настройки в редакторе».</li><li>Нажмите «Скачать tests.json» и загрузите файл в GitHub в папку <code>data</code>, заменив существующий.</li>
-      <li>Добавьте или удалите вопросы, затем скачайте <code>questions.json</code> и также замените файл в папке <code>data</code>.</li>
-      <li>Сохраните оба изменения в ветку <code>main</code>. После публикации Pages использует новые настройки и вопросы.</li>
+      <li>Создайте тест или настройте существующий, затем нажмите «Скачать tests.json».</li>
+      <li>Добавьте, измените или удалите вопросы, затем скачайте <code>questions.json</code>.</li>
+      <li>Загрузите соответствующие файлы в папку <code>data</code> репозитория GitHub, заменив старые версии, и сохраните изменения в <code>main</code>.</li>
+      <li>Для вопросов с картинками можно загрузить файл прямо в редактор — он встроится в JSON. Для большого числа изображений лучше хранить картинки в папке репозитория (например, <code>images/</code>) и указывать относительный путь.</li>
       <li><a href="https://github.com/vladtrosko01/test-base/tree/main/data" target="_blank" rel="noopener">Открыть папку data в GitHub</a>.</li>
     </ol></section>
   </main>
-  <script src="js/admin.js?v=20261118-2015"></script>
+  <script src="js/admin.js?v=20261118-2225"></script>
 </body></html>
