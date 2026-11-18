@@ -111,14 +111,20 @@ function handleFullscreenChange(){
   finish(true,'Экзамен автоматически завершён: выход из полноэкранного режима.');
 }
 function handleVisibilityChange(){
-  if(submitting||!isExamMode()||document.visibilityState!=='hidden')return;
-  warningCount++;
-  violationLog.push({type:'tab-hidden',at:new Date().toISOString(),count:warningCount});
-  const limit=Math.max(1,Number(testConfig.security?.maxWarnings)||2);
-  if(warningCount>=limit&&testConfig.security?.finishOnLimit!==false)pendingAutoFinish=true;
-  saveAttempt();
-  if(document.visibilityState==='hidden')return;
+  if(submitting||!isExamMode())return;
+  if(document.visibilityState==='hidden'){
+    warningCount++;
+    violationLog.push({type:'tab-hidden',at:new Date().toISOString(),count:warningCount});
+    const limit=Math.max(1,Number(testConfig.security?.maxWarnings)||2);
+    if(warningCount>=limit&&testConfig.security?.finishOnLimit!==false)pendingAutoFinish=true;
+    saveAttempt();
+    return;
+  }
   updateWarningDisplay();
+  if(pendingAutoFinish&&!submitting){
+    pendingAutoFinish=false;
+    finish(true,'Экзамен автоматически завершён: превышен лимит переключений вкладки.');
+  }
 }
 function updateWarningDisplay(){
   const limit=Math.max(1,Number(testConfig.security?.maxWarnings)||2);
